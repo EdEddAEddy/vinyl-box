@@ -1,22 +1,25 @@
-import pool from "../config/dataBase.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { createUser, emailExist } from "../models/users/userModel.js";
 
 export async function userRegister(req, res) {
-  const { username, email, password } = req.body;
-
   try {
+    const { username, email, password } = req.body;
+
+    const emailExists = await emailExist(email);
+
+    if (emailExists) {
+      return res
+        .status(400)
+        .json({ message: "Invalid email for registration" });
+    }
+
     const passwordEncrypt = await bcrypt.hash(password, 10);
+    const user = await createUser(username, email, passwordEncrypt);
 
-    const newUser = await pool.query(
-      "insert into users ( username, email, password ) values ($1, $2, $3) returning *",
-      [username, email, passwordEncrypt]
-    );
-
-    console.log(newUser);
-
-    return res.status(201).json(newUser);
+    const { password: _, ...userWithoutPassword } = user;
+    return res.status(201).json(userWithoutPassword);
   } catch (error) {
-    return res.status(500).json({ mensagem: "Erro interno no servidor" });
+    return res.status(500).json({ mensagem: "Internal server error." });
   }
 }
