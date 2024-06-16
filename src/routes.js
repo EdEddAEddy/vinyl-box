@@ -1,6 +1,5 @@
-import express from 'express';
+import express from "express";
 
-const routers = express()
+const routers = express();
 
-
-export default routers
+export default routers;
