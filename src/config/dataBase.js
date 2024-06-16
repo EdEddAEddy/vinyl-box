@@ -1,11 +1,12 @@
-import { Pool } from "pg";
 import {
   hostDatabase,
   portDatabase,
   nameDatabase,
   passwordDatabase,
   userDatabase,
-} from "../../sensitiveData";
+} from "../../sensitiveData.js";
+
+const { Pool } = require("pg");
 
 const pool = new Pool({
   host: hostDatabase,

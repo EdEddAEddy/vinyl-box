@@ -3,7 +3,7 @@ const hostDatabase = "localhost";
 const nameDatabase = "musicpbox";
 const passwordDatabase = "root";
 const portDatabase = 5432;
-const tokenPassword = null;
+const tokenPassword = "musicpboxstream";
 
 export default {
   userDatabase,
