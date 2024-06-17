@@ -12,24 +12,22 @@ export async function createUser(username, email, passwordEncrypt) {
 
     return user;
   } catch (error) {
-    return undefined;
+    console.error("Error creating user:", error);
+    throw error;
   }
 }
 
 export async function emailExist(email) {
   try {
-    const validUser = await prisma.users.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         email,
       },
     });
 
-    if (!validUser) {
-      return false;
-    }
-
-    return true;
+    return !!user;
   } catch (error) {
-    return false;
+    console.error("Error checking email existence:", error);
+    throw error;
   }
 }

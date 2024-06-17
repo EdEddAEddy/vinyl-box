@@ -6,12 +6,12 @@ export async function userRegister(req, res) {
   try {
     const { username, email, password } = req.body;
 
-    const emailExists = await emailExist(email);
+    const isEmailTaken = await emailExist(email);
 
-    if (emailExists) {
+    if (isEmailTaken) {
       return res
         .status(400)
-        .json({ message: "Invalid email for registration" });
+        .json({ error: "Email already exists" });
     }
 
     const passwordEncrypt = await bcrypt.hash(password, 10);
@@ -20,6 +20,7 @@ export async function userRegister(req, res) {
     const { password: _, ...userWithoutPassword } = user;
     return res.status(201).json(userWithoutPassword);
   } catch (error) {
-    return res.status(500).json({ mensagem: "Internal server error." });
+    console.error("Error registering user:", error);
+    return res.status(500).json({ error: "Internal server error." });
   }
 }
