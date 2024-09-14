@@ -4,6 +4,7 @@ import {
   createUser,
   emailExist,
   findUserByEmail,
+  findUserById,
 } from "../models/users/userModel.js";
 
 import dotenv from "dotenv";
@@ -55,6 +56,18 @@ export async function userLogin(req, res) {
     const token = jwt.sign(id, SECRET, { expiresIn: "1h" });
 
     return res.status(200).json({ token: token });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function getUser(req, res) {
+  try {
+    const id = req.user;
+
+    const user = await findUserById(id);
+
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }

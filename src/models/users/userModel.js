@@ -46,3 +46,19 @@ export async function findUserByEmail(email) {
     throw error;
   }
 }
+
+export async function findUserById(id) {
+  try {
+    const user = await prisma.users.findUnique({
+      where: {
+        user_id: id,
+      },
+    });
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error " });
+  }
+}
