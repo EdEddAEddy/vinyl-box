@@ -31,3 +31,18 @@ export async function emailExist(email) {
     throw error;
   }
 }
+
+export async function findUserByEmail(email) {
+  try {
+    const user = await prisma.users.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error checking user existence:", error);
+    throw error;
+  }
+}
