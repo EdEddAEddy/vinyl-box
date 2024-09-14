@@ -8,3 +8,17 @@ export async function getAllSongs() {
     return res.status(500).json({ message: "Internal Server Error " });
   }
 }
+
+export async function SongsByArtist(artist) {
+  try {
+    const songs = await prisma.songs.findMany({
+      where: {
+        artist,
+      },
+    });
+
+    return songs;
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error " });
+  }
+}
