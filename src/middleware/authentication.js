@@ -17,10 +17,18 @@ export async function tokenVerify(req, res, next) {
   try {
     const { userId } = jwt.verify(token, SECRET);
 
-    req.user = userId;
+    req.user = { userId, role };
 
     next();
   } catch (error) {
     return res.status(500).json({ message: "Invalid Token" });
+  }
+}
+
+export async function isAdmin(req, res, next) {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied" });
   }
 }

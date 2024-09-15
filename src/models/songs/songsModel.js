@@ -45,3 +45,29 @@ export async function SongsArtistById(id, artist) {
     return res.status(500).json({ message: "Internal Server Error " });
   }
 }
+
+export async function addSong(
+  title,
+  album,
+  lyrics,
+  artist_id,
+  audioUrl,
+  coverUrl
+) {
+  try {
+    const song = prisma.songs.create({
+      data: {
+        title,
+        album,
+        lyrics,
+        audio_url: audioUrl,
+        cover_url: coverUrl,
+        artist_id: parseInt(artist_id),
+      },
+    });
+
+    return song;
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error " });
+  }
+}

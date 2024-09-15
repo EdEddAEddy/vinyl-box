@@ -16,7 +16,7 @@ router.post("/login", validateReqBody(schemaUserLogin), userLogin);
 
 router.use(tokenVerify);
 
-router.get("/user", getUser);
+router.get("/user/me", getUser);
 router.get("/songs", getSongs);
 router.get("/songs/:artist", getSongsByArtist);
 router.get("/songs/:artist/:id", getSongsArtistById);

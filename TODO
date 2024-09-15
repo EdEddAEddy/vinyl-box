@@ -1,0 +1,74 @@
+Usuários (Users):
+
+[x]POST /register - Registrar novo usuário
+[x]POST /login - Login de usuário
+[x]GET /users/me - Obter perfil do usuário logado
+PUT /users/me - Atualizar perfil do usuário
+GET /users/:user_id/playlists - Listar playlists do usuário
+
+
+Artistas (Artists):
+
+GET /artists - Listar todos os artistas
+GET /artists/:artist_id - Obter detalhes de um artista específico
+GET /artists/:artist_id/songs - Listar músicas de um artista específico
+POST /artists - Adicionar novo artista (para administradores)
+PUT /artists/:artist_id - Atualizar informações do artista (para administradores)
+
+
+Músicas (Songs):
+
+[x]GET /songs - Listar todas as músicas
+GET /songs/:song_id - Obter detalhes de uma música específica
+GET /songs/search?q=query - Buscar músicas por título
+POST /songs - Adicionar nova música (para administradores)
+PUT /songs/:song_id - Atualizar informações da música (para administradores)
+
+
+Likes:
+
+POST /songs/:song_id/like - Curtir uma música
+DELETE /songs/:song_id/like - Remover curtida de uma música
+GET /users/me/liked-songs - Listar músicas curtidas pelo usuário logado
+
+
+Playlists:
+
+GET /playlists - Listar todas as playlists do usuário logado
+POST /playlists - Criar nova playlist
+GET /playlists/:playlist_id - Obter detalhes de uma playlist específica
+PUT /playlists/:playlist_id - Atualizar informações da playlist
+DELETE /playlists/:playlist_id - Excluir playlist
+
+
+PlaylistSong:
+
+POST /playlists/:playlist_id/songs - Adicionar música à playlist
+DELETE /playlists/:playlist_id/songs/:song_id - Remover música da playlist
+GET /playlists/:playlist_id/songs - Listar músicas de uma playlist específica
+
+
+
+Rotas adicionais que você pode considerar:
+
+Álbuns:
+
+GET /albums - Listar todos os álbuns
+GET /albums/:album_name - Obter detalhes de um álbum específico
+GET /albums/:album_name/songs - Listar músicas de um álbum específico
+
+
+Recomendações:
+
+GET /recommendations - Obter recomendações de músicas baseadas nas curtidas do usuário
+
+
+Estatísticas:
+
+GET /users/me/top-artists - Obter os artistas mais ouvidos pelo usuário
+GET /users/me/top-songs - Obter as músicas mais ouvidas pelo usuário
+
+
+Streaming:
+
+GET /songs/:song_id/stream - Obter URL de streaming para uma música específica
