@@ -12,18 +12,32 @@ model Users {
   username String
   email    String     @unique
   password String
+  cover    String
+  role     String     @default("user")
   Likes    Likes[]
   Playlist Playlist[]
 
   @@map("users")
 }
 
+model Artists {
+  artist_id Int     @id @default(autoincrement())
+  name      String
+  bio       String
+  cover     String
+  Songs     Songs[]
+
+  @@map("artists")
+}
+
 model Songs {
   song_id      Int            @id @default(autoincrement())
   title        String
-  artist       String
   album        String
   lyrics       String
+  cover        String
+  artist_id    Int
+  artist       Artists        @relation(fields: [artist_id], references: [artist_id])
   PlaylistSong PlaylistSong[]
   Likes        Likes[]
 
@@ -44,6 +58,7 @@ model Playlist {
   playlist_id  Int            @id @default(autoincrement())
   user_id      Int
   name         String
+  cover        String
   PlaylistSong PlaylistSong[]
   User         Users          @relation(fields: [user_id], references: [user_id])
 
