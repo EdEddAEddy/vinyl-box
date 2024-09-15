@@ -15,10 +15,9 @@ export async function tokenVerify(req, res, next) {
   }
 
   try {
-    const { userId } = jwt.verify(token, SECRET);
+    const { userId, role } = jwt.verify(token, SECRET);
 
     req.user = { userId, role };
-
     next();
   } catch (error) {
     return res.status(500).json({ message: "Invalid Token" });

@@ -1,10 +1,15 @@
 import express from "express";
-import { userRegister, userLogin, getUser } from "../controllers/users.js";
+import { getArtists } from "../controllers/artistsControllers.js";
+import {
+  userRegister,
+  userLogin,
+  getUser,
+} from "../controllers/usersControllers.js";
 import {
   getSongs,
   getSongsByArtist,
   getSongsArtistById,
-} from "../controllers/songs.js";
+} from "../controllers/songsControllers.js";
 import { schemaCreateUser, schemaUserLogin } from "../schemas/userSchema.js";
 import { tokenVerify } from "../middleware/authentication.js";
 import validateReqBody from "../middleware/validatedBody.js";
@@ -17,6 +22,9 @@ router.post("/login", validateReqBody(schemaUserLogin), userLogin);
 router.use(tokenVerify);
 
 router.get("/user/me", getUser);
+
+router.get("/artists", getArtists);
+
 router.get("/songs", getSongs);
 router.get("/songs/:artist", getSongsByArtist);
 router.get("/songs/:artist/:id", getSongsArtistById);
