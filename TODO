@@ -9,7 +9,7 @@ GET /users/:user_id/playlists - Listar playlists do usuário
 
 Artistas (Artists):
 
-GET /artists - Listar todos os artistas
+[x]GET /artists - Listar todos os artistas
 GET /artists/:artist_id - Obter detalhes de um artista específico
 GET /artists/:artist_id/songs - Listar músicas de um artista específico
 POST /artists - Adicionar novo artista (para administradores)
