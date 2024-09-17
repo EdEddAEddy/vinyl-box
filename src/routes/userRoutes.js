@@ -4,6 +4,7 @@ import {
   userRegister,
   userLogin,
   getUser,
+  updateMeUser
 } from "../controllers/usersControllers.js";
 import {
   getSongs,
@@ -22,6 +23,7 @@ router.post("/login", validateReqBody(schemaUserLogin), userLogin);
 router.use(tokenVerify);
 
 router.get("/user/me", getUser);
+router.patch("/user/me", updateMeUser)
 
 router.get("/artists", getArtists);
 

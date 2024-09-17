@@ -62,3 +62,16 @@ export async function findUserById(id) {
     return res.status(500).json({ message: "Internal Server Error " });
   }
 }
+
+export async function updateUser(id, updates) {  
+  try {
+    const userUpdated = await prisma.users.update({
+      where: {user_id: id},
+      data: updates
+    })
+
+    return userUpdated
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error " });
+  }
+}

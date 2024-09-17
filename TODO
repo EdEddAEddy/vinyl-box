@@ -3,7 +3,7 @@ Usuários (Users):
 [x]POST /register - Registrar novo usuário
 [x]POST /login - Login de usuário
 [x]GET /users/me - Obter perfil do usuário logado
-PUT /users/me - Atualizar perfil do usuário
+[x]PATCH /users/me - Atualizar perfil do usuário
 GET /users/:user_id/playlists - Listar playlists do usuário
 
 
