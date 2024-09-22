@@ -63,15 +63,31 @@ export async function findUserById(id) {
   }
 }
 
-export async function updateUser(id, updates) {  
+export async function updateUser(id, updates) {
   try {
     const userUpdated = await prisma.users.update({
-      where: {user_id: id},
-      data: updates
-    })
+      where: { user_id: id },
+      data: updates,
+    });
 
-    return userUpdated
+    return userUpdated;
   } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error " });
+  }
+}
+
+export async function getUserPlaylists(user_id) {
+  try {
+    const playlists = await prisma.playlist.findMany({
+      where: {
+        user_id: parseInt(user_id),
+      },
+    });
+
+    return playlists;
+  } catch (error) {
+    console.log(error);
+
     return res.status(500).json({ message: "Internal Server Error " });
   }
 }

@@ -5,7 +5,8 @@ import {
   emailExist,
   findUserByEmail,
   findUserById,
-  updateUser
+  updateUser,
+  getUserPlaylists,
 } from "../models/users/userModel.js";
 
 import dotenv from "dotenv";
@@ -74,27 +75,42 @@ export async function getUser(req, res) {
 
 export async function updateMeUser(req, res) {
   try {
-    
     const { userId } = req.user;
     const { username, email, password } = req.body;
 
-    const updates = {}
+    const updates = {};
 
     if (username !== undefined) {
-      updates.username = username
+      updates.username = username;
     }
     if (email !== undefined) {
-      updates.email = email
+      updates.email = email;
     }
     if (password !== undefined) {
-      updates.password = await bcrypt.hash(password, 10)
+      updates.password = await bcrypt.hash(password, 10);
     }
 
     const userUpdated = await updateUser(userId, updates);
 
-    const {password: _, role, ...safeUserData} = userUpdated
+    const { password: _, role, ...safeUserData } = userUpdated;
 
-    return res.status(200).json(safeUserData)
+    return res.status(200).json(safeUserData);
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function getPlaylistsById(req, res) {
+  try {
+    const { user_id } = req.params;
+
+    const playlists = await getUserPlaylists(user_id);
+
+    if (Object.keys(playlists).length === 0) {
+      return res.status(404).json({ message: "User Does Not Have playlist" });
+    }
+
+    return res.status(200).json(playlists);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }

@@ -4,8 +4,9 @@ Usuários (Users):
 [x]POST /login - Login de usuário
 [x]GET /users/me - Obter perfil do usuário logado
 [x]PATCH /users/me - Atualizar perfil do usuário
-GET /users/:user_id/playlists - Listar playlists do usuário
+[x]GET /users/:user_id/playlists - Listar playlists do usuário
 
+FAZER VALIDACOES/SCHEMAS PARA USERS
 
 Artistas (Artists):
 
