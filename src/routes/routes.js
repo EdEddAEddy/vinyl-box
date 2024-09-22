@@ -12,20 +12,29 @@ import {
   getSongsByArtist,
   getSongsArtistById,
 } from "../controllers/songsControllers.js";
-import { schemaCreateUser, schemaUserLogin } from "../schemas/userSchema.js";
+import {
+  schemaCreateUser,
+  schemaUserLogin,
+  schemaUpdateUser,
+  schemaUserId,
+} from "../schemas/userSchema.js";
 import { tokenVerify } from "../middleware/authentication.js";
-import validateReqBody from "../middleware/validatedBody.js";
+import validate from "../middleware/validate.js";
 
 const router = express.Router();
 
-router.post("/register", validateReqBody(schemaCreateUser), userRegister);
-router.post("/login", validateReqBody(schemaUserLogin), userLogin);
+router.post("/register", validate(schemaCreateUser, "body"), userRegister);
+router.post("/login", validate(schemaUserLogin, "body"), userLogin);
 
 router.use(tokenVerify);
 
 router.get("/user/me", getUser);
-router.patch("/user/me", updateMeUser);
-router.get("/users/:user_id/playlists", getPlaylistsById);
+router.patch("/user/me", validate(schemaUpdateUser, "body"), updateMeUser);
+router.get(
+  "/user/:user_id/playlists",
+  validate(schemaUserId, "params"),
+  getPlaylistsById
+);
 
 router.get("/artists", getArtists);
 

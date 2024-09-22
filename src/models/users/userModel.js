@@ -47,13 +47,17 @@ export async function findUserByEmail(email) {
   }
 }
 
-export async function findUserById(id) {
+export async function findUserById(userId) {
   try {
     const user = await prisma.users.findUnique({
       where: {
-        user_id: id,
+        user_id: parseInt(userId),
       },
     });
+
+    if (!user) {
+      return false;
+    }
 
     const { password: _, ...userWithoutPassword } = user;
 
@@ -76,11 +80,11 @@ export async function updateUser(id, updates) {
   }
 }
 
-export async function getUserPlaylists(user_id) {
+export async function getUserPlaylists(userId) {
   try {
     const playlists = await prisma.playlist.findMany({
       where: {
-        user_id: parseInt(user_id),
+        user_id: parseInt(userId),
       },
     });
 

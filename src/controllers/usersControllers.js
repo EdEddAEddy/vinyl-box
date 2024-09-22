@@ -54,7 +54,7 @@ export async function userLogin(req, res) {
       return res.status(404).json({ error: "User not exists" });
     }
     const id = { userId: user.user_id, role: user.role };
-    const token = jwt.sign(id, SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(id, SECRET, { expiresIn: "24h" });
     return res.status(200).json({ token: token });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
@@ -63,9 +63,13 @@ export async function userLogin(req, res) {
 
 export async function getUser(req, res) {
   try {
-    const id = req.user;
+    const { userId } = req.user;
 
-    const user = await findUserById(id);
+    const user = await findUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     return res.status(200).json(user);
   } catch (error) {
@@ -76,7 +80,7 @@ export async function getUser(req, res) {
 export async function updateMeUser(req, res) {
   try {
     const { userId } = req.user;
-    const { username, email, password } = req.body;
+    const { username, email, password, cover_url } = req.body;
 
     const updates = {};
 
@@ -85,6 +89,9 @@ export async function updateMeUser(req, res) {
     }
     if (email !== undefined) {
       updates.email = email;
+    }
+    if (cover_url !== undefined) {
+      updates.cover_url = cover_url;
     }
     if (password !== undefined) {
       updates.password = await bcrypt.hash(password, 10);
@@ -105,9 +112,14 @@ export async function getPlaylistsById(req, res) {
     const { user_id } = req.params;
 
     const playlists = await getUserPlaylists(user_id);
+    const user = await findUserById(user_id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     if (Object.keys(playlists).length === 0) {
-      return res.status(404).json({ message: "User Does Not Have playlist" });
+      return res.status(404).json({ message: "User does not have playlist" });
     }
 
     return res.status(200).json(playlists);

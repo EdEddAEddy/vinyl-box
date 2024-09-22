@@ -30,3 +30,28 @@ export const schemaUserLogin = joi.object({
     "string.empty": "password field is required",
   }),
 });
+
+export const schemaUpdateUser = joi
+  .object({
+    username: joi.string().messages({
+      "string.empty": "username field is required",
+    }),
+    email: joi.string().email().messages({
+      "string.email": "Email field invalid format",
+      "string.empty": "Email field is required",
+    }),
+    password: joi.string().messages({
+      "string.empty": "password field is required",
+    }),
+    cover_url: joi.string().messages({
+      "string.empty": "password field is required",
+    }),
+  })
+  .min(1)
+  .messages({
+    "object.min": "At least one field must be provided for updating.",
+  });
+
+export const schemaUserId = joi.object({
+  user_id: joi.number().required(),
+});
