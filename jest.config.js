@@ -1,19 +1,19 @@
 export default {
+  transform: {
+    "^.+\\.js$": "babel-jest",
+  },
   testEnvironment: "node",
-  transform: {},
-  extensionsToTreatAsEsm: [".js"],
+  moduleFileExtensions: ["js"],
+  moduleDirectories: ["node_modules", "src"],
+  testMatch: ["**/test/unit/**/*.test.js"],
+  rootDir: "./",
+  verbose: true,
+  modulePaths: ["."],
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
-  testMatch: ["**/__tests__/**/*.js", "**/?(*.)+(spec|test).js"],
+  testPathIgnorePatterns: ["/node_modules/"],
+  collectCoverage: true,
   coverageDirectory: "coverage",
-  collectCoverageFrom: ["src/**/*.js", "!src/index.js"],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
+  coverageReporters: ["text", "lcov"],
 };

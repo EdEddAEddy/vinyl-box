@@ -6,7 +6,8 @@ Usuários (Users):
 [x]PATCH /users/me - Atualizar perfil do usuário
 [x]GET /users/:user_id/playlists - Listar playlists do usuário
 
-FAZER VALIDACOES/SCHEMAS PARA USERS
+[x]FAZER VALIDACOES/SCHEMAS PARA USERS
+USER TESTS
 
 Artistas (Artists):
 
