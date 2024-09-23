@@ -7,7 +7,7 @@ Usuários (Users):
 [x]GET /users/:user_id/playlists - Listar playlists do usuário
 
 [x]FAZER VALIDACOES/SCHEMAS PARA USERS
-USER TESTS
+[x]USER TESTS
 
 Artistas (Artists):
 

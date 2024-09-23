@@ -77,7 +77,61 @@ describe("Users Controllers", () => {
     });
   });
 
-  describe("Users Login", () => {
-    describe("");
+  describe("userLogin", () => {
+    it("should successfully log in a user", async () => {
+      req.body = {
+        email: "test@email.com",
+        password: "password123"
+      };
+
+      const mockUser = {
+        user_id: 1,
+        email: 'test@email.com',
+        password: 'hashedPassword',
+        role: 'user'
+      }
+
+      userModel.findUserByEmail.mockResolvedValue(mockUser);
+      bcrypt.compare.mockResolvedValue(true);
+      jwt.sign.mockReturnValue('token');
+
+      await userLogin(req, res);
+
+      expect(userModel.findUserByEmail).toHaveBeenCalledWith(req.body.email)
+      expect(bcrypt.compare).toHaveBeenCalledWith(req.body.password, mockUser.password)
+      expect(jwt.sign).toHaveBeenCalledWith({userId: 1, role: "user"}, expect.any(String), {expiresIn: "24h"})
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({token: 'token'})
+
+    });
+
+    it("should return an error if user not exists", async () => {
+      req.body = {
+        email: "test@email.com",
+        password: "password123"
+      };
+
+      userModel.findUserByEmail.mockResolvedValue(null);
+
+      await userLogin(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({error: "User not exists" });
+    });
+
+    it("should return an error if password incorrect", async () => {
+      req.body = {
+        email: "test@email.com",
+        password: "password123"
+      };
+
+      bcrypt.compare.mockResolvedValue(false)
+
+      await userLogin(req, res);
+      
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({error: "User not exists" });
+    })
   });
 });
