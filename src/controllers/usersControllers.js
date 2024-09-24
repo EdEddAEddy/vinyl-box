@@ -30,10 +30,6 @@ export async function userRegister(req, res) {
 
     return res.status(201).json(userWithoutPassword);
   } catch (error) {
-    console.error("Error registering user:", error);
-
-    console.log(error.code);
-
     return res.status(500).json({ error: "Internal server error." });
   }
 }
