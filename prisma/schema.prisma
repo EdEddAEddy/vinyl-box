@@ -13,7 +13,7 @@ model Users {
   email     String     @unique
   password  String
   cover_url String
-  role      String     @default("user")
+  role      Role       @default(user)
   Likes     Likes[]
   Playlist  Playlist[]
 
@@ -73,4 +73,9 @@ model PlaylistSong {
   Song        Songs    @relation(fields: [song_id], references: [song_id])
 
   @@id([playlist_id, song_id])
+}
+
+enum Role {
+  user
+  admin
 }

@@ -1,92 +1,89 @@
-import prisma from "../src/config/prisma.js";
-import bcrypt from "bcrypt";
+import { PrismaClient, Role } from "@prisma/client";
+import { hash } from "bcrypt";
+
+const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.users.createMany({
-    data: [
-      {
-        username: "John doe",
-        email: "john@email.com",
-        password: await bcrypt.hash("123456", 10),
-        cover_url: "image.jpg",
-        role: "user",
+  const users = [];
+  for (let i = 1; i <= 10; i++) {
+    const user = await prisma.users.create({
+      data: {
+        username: `john${i}`,
+        email: `john${i}@example.com`,
+        password: await hash("password", 10),
+        cover_url: `image-user-${i}.jpg`,
+        role: Object.values(Role)[Math.floor(Math.random() * 2)],
       },
-      {
-        username: "Ed",
-        email: "ed@email.com",
-        password: await bcrypt.hash("123456", 10),
-        cover_url: "image.jpg",
-        role: "admin",
+    });
+    users.push(user);
+  }
+
+  const artists = [];
+  for (let i = 1; i <= 10; i++) {
+    const artist = await prisma.artists.create({
+      data: {
+        name: `artist ${i}`,
+        bio: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+        cover_url: `image-artist-${i}.jpg`,
       },
-    ],
-  });
+    });
+    artists.push(artist);
+  }
 
-  const bk = await prisma.artists.create({
-    data: {
-      name: "BK",
-      bio: "Abebe Bikila Costa Santos, conhecido pelo seu nome artístico BK, é um rapper, escritor e compositor brasileiro considerado um dos nomes mais influentes do cenário do rap brasileiro.",
-      cover_url: "bk.jpg",
-    },
-  });
-
-  const bigX = await prisma.artists.create({
-    data: {
-      name: "BigxThaPlug",
-      bio: "Xavier Landum, mais conhecido pelo nome artístico de BigXthaPlug, é um rapper americano. Ele está atualmente assinado com a UnitedMasters e é mais conhecido por suas canções Texas, Mmhmm, Climate, Levels e Whip It.",
-      cover_url: "big.jpg",
-    },
-  });
-
-  await prisma.songs.createMany({
-    data: [
-      {
-        title: "Bom te encontrar",
-        album: "Verao bandido",
+  const songs = [];
+  for (let i = 1; i <= 10; i++) {
+    const song = await prisma.songs.create({
+      data: {
+        title: `music ${i}`,
+        album: `album ${i}`,
         lyrics:
-          "Hoje foi bom te encontrar, aham Agora 'tá tudo bem Falei que a gente ia voltar a respirar e a vida vem Voltar a se olhar, sem se odiar e querer o bem Estar no mesmo lugar sem mal estar, sumiram as nuvens E o céu abriu novamente Me desculpa qualquer coisa Sei que há tempo já superamos Mas nós falamos tanta coisa Que não devia sair da boca Tipo, hoje parece coisa boba Sei que a gente era criança E brigava por coisa pouca A história podia ser outra",
-        cover_url: "verao.jpg",
-        audio_url: "verao.mp3",
-        artist_id: bk.artist_id,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        cover_url: `image-songs-${i}`,
+        audio_url: `audio-${i}`,
+        artist_id:
+          artists[Math.floor(Math.random() * artists.length)].artist_id,
       },
-      {
-        title: "Julius",
-        album: "Gigantes",
-        lyrics: "sss",
-        cover_url: "julius.jpg",
-        audio_url: "julius.mp3",
-        artist_id: bk.artist_id,
-      },
-    ],
-  });
+    });
+    songs.push(song);
+  }
 
-  await prisma.songs.createMany({
-    data: [
-      {
-        title: "Hmmmm",
-        album: "single",
-        lyrics: "hmmm",
-        cover_url: "Hmmmm.jpg",
-        audio_url: "Hmmmm.mp3",
-        artist_id: bigX.artist_id,
+  for (let i = 1; i <= 10; i++) {
+    await prisma.likes.create({
+      data: {
+        user_id: users[Math.floor(Math.random() * users.length)].user_id,
+        song_id: songs[Math.floor(Math.random() * songs.length)].song_id,
       },
-      {
-        title: "Texas",
-        album: "single",
-        lyrics: "sss",
-        cover_url: "Texas.jpg",
-        audio_url: "Texas.mp3",
-        artist_id: bigX.artist_id,
+    });
+  }
+
+  const playlists = [];
+  for (let i = 1; i <= 10; i++) {
+    const playlist = await prisma.playlist.create({
+      data: {
+        user_id: users[Math.floor(Math.random() * users.length)].user_id,
+        name: `the biggest ${i}`,
+        cover_url: `image-playlist-${i}`,
       },
-    ],
-  });
+    });
+    playlists.push(playlist);
+  }
+
+  for (let i = 1; i <= 10; i++) {
+    await prisma.playlistSong.create({
+      data: {
+        playlist_id:
+          playlists[Math.floor(Math.random() * playlists.length)].playlist_id,
+        song_id: songs[Math.floor(Math.random() * songs.length)].song_id,
+      },
+    });
+  }
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
+  .catch((e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
