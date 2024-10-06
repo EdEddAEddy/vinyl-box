@@ -39,8 +39,6 @@ export async function getSongsByArtistId(artistId) {
       return false;
     }
 
-    console.log(songs);
-
     return songs;
   } catch (error) {
     throw error;

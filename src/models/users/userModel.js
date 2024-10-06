@@ -40,7 +40,6 @@ export async function findUserByEmail(email) {
       },
     });
 
-
     return user;
   } catch (error) {
     console.error("Error checking user existence:", error);
@@ -91,8 +90,6 @@ export async function getUserPlaylists(userId) {
 
     return playlists;
   } catch (error) {
-    console.log(error);
-
     return res.status(500).json({ message: "Internal Server Error " });
   }
 }
