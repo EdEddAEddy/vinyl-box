@@ -8,3 +8,21 @@ export async function getAllArtists() {
     throw error;
   }
 }
+
+export async function getArtistById(artistId) {
+  try {
+    const artist = await prisma.artists.findUnique({
+      where: {
+        artist_id: parseInt(artistId),
+      },
+    });
+
+    if (!artist) {
+      return false;
+    }
+
+    return artist;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { getArtists } from "../controllers/artistsControllers.js";
+import { getArtists, ArtistById } from "../controllers/artistsControllers.js";
 import {
   userRegister,
   userLogin,
@@ -20,6 +20,7 @@ import {
 } from "../schemas/userSchema.js";
 import { tokenVerify } from "../middleware/authentication.js";
 import validate from "../middleware/validate.js";
+import { schemaArtistId } from "../schemas/artistSchema.js";
 
 const router = express.Router();
 
@@ -37,6 +38,11 @@ router.get(
 );
 
 router.get("/artists", getArtists);
+router.get(
+  "/artists/:artist_id",
+  validate(schemaArtistId, "params"),
+  ArtistById
+);
 
 router.get("/songs", getSongs);
 router.get("/songs/:artist", getSongsByArtist);
