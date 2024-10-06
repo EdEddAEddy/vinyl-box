@@ -12,7 +12,7 @@ Usuários (Users):
 Artistas (Artists):
 
 [x]GET /artists - Listar todos os artistas
-GET /artists/:artist_id - Obter detalhes de um artista específico
+[x]GET /artists/:artist_id - Obter detalhes de um artista específico
 GET /artists/:artist_id/songs - Listar músicas de um artista específico
 POST /artists - Adicionar novo artista (para administradores)
 PUT /artists/:artist_id - Atualizar informações do artista (para administradores)

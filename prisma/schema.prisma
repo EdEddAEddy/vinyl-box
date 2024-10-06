@@ -12,7 +12,7 @@ model Users {
   username  String
   email     String     @unique
   password  String
-  cover_url String
+  cover_url String?    @default("profile-icon.png")
   role      Role       @default(user)
   Likes     Likes[]
   Playlist  Playlist[]
@@ -52,6 +52,7 @@ model Likes {
   User    Users @relation(fields: [user_id], references: [user_id])
 
   @@id([user_id, song_id])
+  @@unique([user_id, song_id])
   @@map("likes")
 }
 
@@ -73,6 +74,7 @@ model PlaylistSong {
   Song        Songs    @relation(fields: [song_id], references: [song_id])
 
   @@id([playlist_id, song_id])
+  @@unique([playlist_id, song_id])
 }
 
 enum Role {

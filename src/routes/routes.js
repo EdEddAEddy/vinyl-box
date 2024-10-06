@@ -1,5 +1,9 @@
 import express from "express";
-import { getArtists, ArtistById } from "../controllers/artistsControllers.js";
+import {
+  getArtists,
+  ArtistById,
+  artistSongs,
+} from "../controllers/artistsControllers.js";
 import {
   userRegister,
   userLogin,
@@ -43,9 +47,14 @@ router.get(
   validate(schemaArtistId, "params"),
   ArtistById
 );
+router.get(
+  "/artists/:artist_id/songs",
+  validate(schemaArtistId, "params"),
+  artistSongs
+);
 
 router.get("/songs", getSongs);
-router.get("/songs/:artist", getSongsByArtist);
+// router.get("/songs/:artist", getSongsByArtist);
 router.get("/songs/:artist/:id", getSongsArtistById);
 
 export default router;

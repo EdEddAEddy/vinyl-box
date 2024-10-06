@@ -26,3 +26,23 @@ export async function getArtistById(artistId) {
     throw error;
   }
 }
+
+export async function getSongsByArtistId(artistId) {
+  try {
+    const songs = await prisma.songs.findMany({
+      where: {
+        artist_id: parseInt(artistId),
+      },
+    });
+
+    if (songs.length === 0) {
+      return false;
+    }
+
+    console.log(songs);
+
+    return songs;
+  } catch (error) {
+    throw error;
+  }
+}

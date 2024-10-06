@@ -6,7 +6,7 @@ import {
 import storage from "../utils/storage.js";
 import upload from "../middleware/upload.js";
 
-export async function getSongs(req, res) {
+export async function getSongs(_, res) {
   try {
     const songs = await getAllSongs();
     res.status(200).json(songs);
