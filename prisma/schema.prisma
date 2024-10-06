@@ -24,7 +24,7 @@ model Artists {
   artist_id Int     @id @default(autoincrement())
   name      String
   bio       String
-  cover_url String
+  cover_url String? @default("profile-icon.png")
   Songs     Songs[]
 
   @@map("artists")
