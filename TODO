@@ -6,16 +6,13 @@ Usuários (Users):
 [x]PATCH /user/me - Atualizar perfil do usuário
 [x]GET /user/:user_id/playlists - Listar playlists do usuário
 
-[x]FAZER VALIDACOES/SCHEMAS PARA USERS
-[x]USER TESTS
-
 Artistas (Artists):
 
 [x]GET /artists - Listar todos os artistas
 [x]GET /artists/:artist_id - Obter detalhes de um artista específico
 [x]GET /artists/:artist_id/songs - Listar músicas de um artista específico
-POST /artists - Adicionar novo artista (para administradores)
-PUT /artists/:artist_id - Atualizar informações do artista (para administradores)
+[x]POST /artists - Adicionar novo artista (para administradores)
+PATCH /artists/:artist_id - Atualizar informações do artista (para administradores)
 
 
 Músicas (Songs):

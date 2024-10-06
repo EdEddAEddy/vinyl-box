@@ -60,3 +60,15 @@ export async function postArtist(name, bio, cover_url) {
     throw error;
   }
 }
+
+export async function patchArtist(artistId, updates) {
+  try {
+    const artistUpdated = await prisma.artists.update({
+      where: { artist_id: parseInt(artistId) },
+      data: updates,
+    });
+    return artistUpdated;
+  } catch (error) {
+    throw error;
+  }
+}
