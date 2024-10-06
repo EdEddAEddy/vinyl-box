@@ -1,8 +1,9 @@
 import express from "express";
 import {
   getArtists,
-  ArtistById,
+  artistById,
   artistSongs,
+  artistRegister,
 } from "../controllers/artistsControllers.js";
 import {
   userRegister,
@@ -22,7 +23,7 @@ import {
   schemaUpdateUser,
   schemaUserId,
 } from "../schemas/userSchema.js";
-import { tokenVerify } from "../middleware/authentication.js";
+import { isAdmin, tokenVerify } from "../middleware/authentication.js";
 import validate from "../middleware/validate.js";
 import { schemaArtistId } from "../schemas/artistSchema.js";
 
@@ -45,13 +46,14 @@ router.get("/artists", getArtists);
 router.get(
   "/artists/:artist_id",
   validate(schemaArtistId, "params"),
-  ArtistById
+  artistById
 );
 router.get(
   "/artists/:artist_id/songs",
   validate(schemaArtistId, "params"),
   artistSongs
 );
+router.post("/artist", isAdmin, artistRegister);
 
 router.get("/songs", getSongs);
 // router.get("/songs/:artist", getSongsByArtist);

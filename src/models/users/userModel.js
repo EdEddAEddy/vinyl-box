@@ -40,6 +40,10 @@ export async function findUserByEmail(email) {
       },
     });
 
+    if (!user) {
+      return false;
+    }
+
     return user;
   } catch (error) {
     console.error("Error checking user existence:", error);

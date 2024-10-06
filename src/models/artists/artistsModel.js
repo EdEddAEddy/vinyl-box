@@ -44,3 +44,19 @@ export async function getSongsByArtistId(artistId) {
     throw error;
   }
 }
+
+export async function postArtist(name, bio, cover_url) {
+  try {
+    const artist = await prisma.artists.create({
+      data: {
+        name,
+        bio,
+        cover_url,
+      },
+    });
+
+    return artist;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -49,6 +49,7 @@ export async function userLogin(req, res) {
     if (!passwordCorrect) {
       return res.status(404).json({ error: "User not exists" });
     }
+
     const id = { userId: user.user_id, role: user.role };
     const token = jwt.sign(id, SECRET, { expiresIn: "24h" });
     return res.status(200).json({ token: token });
