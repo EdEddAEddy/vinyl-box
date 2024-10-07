@@ -7,7 +7,7 @@ import {
   updateArtist,
 } from "../controllers/artistsControllers.js";
 import {
-    userRegister,
+  userRegister,
   userLogin,
   getUser,
   updateMeUser,
@@ -55,10 +55,15 @@ router.get(
   artistSongs
 );
 router.post("/artist", isAdmin, artistRegister);
-router.patch("/artist/:artist_id", isAdmin, updateArtist);
+router.patch(
+  "/artist/:artist_id",
+  isAdmin,
+  validate(schemaArtistId, "params"),
+  updateArtist
+);
 
-router.get("/songs", getSongs);
+// router.get("/songs", getSongs);
 // router.get("/songs/:artist", getSongsByArtist);
-router.get("/songs/:artist/:id", getSongsArtistById);
+// router.get("/songs/:artist/:id", getSongsArtistById);
 
 export default router;
