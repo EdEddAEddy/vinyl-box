@@ -1,65 +1,10 @@
-// import prisma from "../../config/prisma.js";
+import prisma from "../../config/prisma.js";
 
-// export async function getAllSongs() {
-//   try {
-//     const songs = await prisma.songs.findMany({});
-//     return songs;
-//   } catch (error) {
-//     console.error("Error patching artists:", error);
-//     throw error;  }
-// }
-
-// export async function SongsByArtist(artist) {
-//   try {
-//     const songs = await prisma.songs.findMany({
-//       where: {
-//         artist,
-//       },
-//     });
-
-//     return songs;
-//   } catch (error) {
-//     return res.status(500).json({ message: "Internal Server Error " });
-//   }
-// }
-
-// export async function SongsArtistById(id, artist) {
-//   try {
-//     const song = await prisma.songs.findUnique({
-//       where: {
-//         song_id: parseInt(id),
-//         artist,
-//       },
-//     });
-
-//     return song;
-//   } catch (error) {
-//     return res.status(500).json({ message: "Internal Server Error " });
-//   }
-// }
-
-// export async function addSong(
-//   title,
-//   album,
-//   lyrics,
-//   artist_id,
-//   audioUrl,
-//   coverUrl
-// ) {
-//   try {
-//     const song = prisma.songs.create({
-//       data: {
-//         title,
-//         album,
-//         lyrics,
-//         audio_url: audioUrl,
-//         cover_url: coverUrl,
-//         artist_id: parseInt(artist_id),
-//       },
-//     });
-
-//     return song;
-//   } catch (error) {
-//     return res.status(500).json({ message: "Internal Server Error " });
-//   }
-// }
+export async function getAllSongs() {
+  try {
+    const songs = await prisma.songs.findMany({});1
+    return songs;
+  } catch (error) {
+    console.error("Error patching artists:", error);
+    throw error;  }
+}

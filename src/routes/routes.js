@@ -62,8 +62,8 @@ router.patch(
   updateArtist
 );
 
-// router.get("/songs", getSongs);
-// router.get("/songs/:artist", getSongsByArtist);
+router.get("/songs", getSongs);
+// router.get("/songs/:song_id", getSongsByArtist);
 // router.get("/songs/:artist/:id", getSongsArtistById);
 
 export default router;

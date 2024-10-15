@@ -17,7 +17,7 @@ Artistas (Artists):
 
 Músicas (Songs):
 
-GET /songs - Listar todas as músicas
+[x]GET /songs - Listar todas as músicas
 GET /songs/:song_id - Obter detalhes de uma música específica
 GET /songs/search?q=query - Buscar músicas por título
 POST /songs - Adicionar nova música (para administradores)
