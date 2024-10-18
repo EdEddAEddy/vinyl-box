@@ -1,4 +1,8 @@
-import { getAllSongs, songById } from "../models/songs/songsModel.js";
+import {
+  getAllSongs,
+  songById,
+  songByTitle,
+} from "../models/songs/songsModel.js";
 import storage from "../utils/storage.js";
 import upload from "../middleware/upload.js";
 
@@ -18,10 +22,26 @@ export async function getSongById(req, res) {
     const song = await songById(song_id);
 
     if (!song) {
-      return res.status(404).json({error: "Song not found!"})
+      return res.status(404).json({ error: "Song not found!" });
     }
 
-    return res.status(200).json(song)
+    return res.status(200).json(song);
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export async function getSongbyTitle(req, res) {
+  try {
+    const { q } = req.query;
+
+    const songs = await songByTitle(q);
+
+    if (!songs) {
+      return res.status(404).json({ error: "Song not found!" });
+    }
+
+    return res.status(200).json(songs);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }

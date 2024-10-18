@@ -16,6 +16,7 @@ import {
 import {
   getSongs,
   getSongById,
+  getSongbyTitle
 } from "../controllers/songsControllers.js";
 import {
   schemaCreateUser,
@@ -63,6 +64,7 @@ router.patch(
 );
 
 router.get("/songs", getSongs);
+router.get("/songs/search", getSongbyTitle)
 router.get("/songs/:song_id", validate(schemaSongId, "params"), getSongById);
 // router.get("/songs/:artist/:id", getSongsArtistById);
 

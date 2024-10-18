@@ -29,3 +29,22 @@ export async function songById(songId) {
     throw error;
   }
 }
+
+export async function songByTitle(title) {
+  try {
+    const songs = await prisma.songs.findMany({
+      where: {
+        title
+      }
+    })
+
+    if (songs.length === 0) {
+      return false
+    }
+
+    return songs
+  } catch (error) {
+    console.error("Error get artist by title:", error);
+    throw error;
+  }
+}
