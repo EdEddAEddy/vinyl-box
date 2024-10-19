@@ -7,7 +7,7 @@ import {
   updateArtist,
 } from "../controllers/artistsControllers.js";
 import {
-    userRegister,
+  userRegister,
   userLogin,
   getUser,
   updateMeUser,
@@ -25,18 +25,34 @@ import {
   schemaUserId,
 } from "../schemas/userSchema.js";
 import { isAdmin, tokenVerify } from "../middleware/authentication.js";
+import { normalizeDataMiddleware } from "../middleware/normalizeData.js";
 import validate from "../middleware/validate.js";
 import { schemaArtistId } from "../schemas/artistSchema.js";
 
 const router = express.Router();
 
-router.post("/register", validate(schemaCreateUser, "body"), userRegister);
-router.post("/login", validate(schemaUserLogin, "body"), userLogin);
+router.post(
+  "/register",
+  validate(schemaCreateUser, "body"),
+  normalizeDataMiddleware,
+  userRegister
+);
+router.post(
+  "/login",
+  validate(schemaUserLogin, "body"),
+  normalizeDataMiddleware,
+  userLogin
+);
 
 router.use(tokenVerify);
 
 router.get("/user/me", getUser);
-router.patch("/user/me", validate(schemaUpdateUser, "body"), updateMeUser);
+router.patch(
+  "/user/me",
+  validate(schemaUpdateUser, "body"),
+  normalizeDataMiddleware,
+  updateMeUser
+);
 router.get(
   "/user/:user_id/playlists",
   validate(schemaUserId, "params"),
@@ -54,8 +70,13 @@ router.get(
   validate(schemaArtistId, "params"),
   artistSongs
 );
-router.post("/artist", isAdmin, artistRegister);
-router.patch("/artist/:artist_id", isAdmin, updateArtist);
+router.post("/artist", isAdmin, normalizeDataMiddleware, artistRegister);
+router.patch(
+  "/artist/:artist_id",
+  normalizeDataMiddleware,
+  isAdmin,
+  updateArtist
+);
 
 router.get("/songs", getSongs);
 // router.get("/songs/:artist", getSongsByArtist);
