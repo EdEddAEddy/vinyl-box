@@ -67,7 +67,8 @@ export async function findUserById(userId) {
 
     return userWithoutPassword;
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error fetching user by id:", error);
+    throw error;
   }
 }
 
@@ -80,7 +81,8 @@ export async function updateUser(id, updates) {
 
     return userUpdated;
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error updating user:", error);
+    throw error;
   }
 }
 
@@ -94,6 +96,7 @@ export async function getUserPlaylists(userId) {
 
     return playlists;
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error fetching user playlist:", error);
+    throw error;
   }
 }

@@ -15,8 +15,8 @@ import {
 } from "../controllers/usersControllers.js";
 import {
   getSongs,
-  getSongsByArtist,
-  getSongsArtistById,
+  getSongById,
+  getSongbyTitle,
 } from "../controllers/songsControllers.js";
 import {
   schemaCreateUser,
@@ -28,6 +28,7 @@ import { isAdmin, tokenVerify } from "../middleware/authentication.js";
 import { normalizeDataMiddleware } from "../middleware/normalizeData.js";
 import validate from "../middleware/validate.js";
 import { schemaArtistId } from "../schemas/artistSchema.js";
+import { schemaSongId } from "../schemas/songSchema.js";
 
 const router = express.Router();
 
@@ -79,7 +80,8 @@ router.patch(
 );
 
 router.get("/songs", getSongs);
-// router.get("/songs/:artist", getSongsByArtist);
-router.get("/songs/:artist/:id", getSongsArtistById);
+router.get("/songs/search", getSongbyTitle);
+router.get("/songs/:song_id", validate(schemaSongId, "params"), getSongById);
+// router.get("/songs/:artist/:id", getSongsArtistById);
 
 export default router;

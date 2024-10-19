@@ -5,6 +5,7 @@ export async function getAllArtists() {
     const artists = await prisma.artists.findMany({});
     return artists;
   } catch (error) {
+    console.error("Error fetching all artists:", error);
     throw error;
   }
 }
@@ -23,6 +24,7 @@ export async function getArtistById(artistId) {
 
     return artist;
   } catch (error) {
+    console.error("Error fetching artists by id:", error);
     throw error;
   }
 }
@@ -41,6 +43,7 @@ export async function getSongsByArtistId(artistId) {
 
     return songs;
   } catch (error) {
+    console.error("Error fetching songs by artist id:", error);
     throw error;
   }
 }
@@ -57,6 +60,7 @@ export async function postArtist(name, bio, cover_url) {
 
     return artist;
   } catch (error) {
+    console.error("Error creating artists:", error);
     throw error;
   }
 }
@@ -69,6 +73,7 @@ export async function patchArtist(artistId, updates) {
     });
     return artistUpdated;
   } catch (error) {
+    console.error("Error patching artists:", error);
     throw error;
   }
 }

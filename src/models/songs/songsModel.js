@@ -3,71 +3,48 @@ import prisma from "../../config/prisma.js";
 export async function getAllSongs() {
   try {
     const songs = await prisma.songs.findMany({});
+    1;
     return songs;
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error get all songs:", error);
+    throw error;
   }
 }
 
-export async function SongsByArtist(artist) {
-  try {
-    const songs = await prisma.songs.findMany({
-      where: {
-        artist,
-      },
-    });
-
-    return songs;
-  } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
-  }
-}
-
-// export async function artistExist(artist) {
-//   try {
-//     const artist = await prisma.
-//   } catch (error) {
-
-//   }
-// }
-
-export async function SongsArtistById(id, artist) {
+export async function songById(songId) {
   try {
     const song = await prisma.songs.findUnique({
       where: {
-        song_id: parseInt(id),
-        artist,
+        song_id: parseInt(songId),
       },
     });
 
-    return song;
+    if (!song) {
+      return false;
+    }
+
+    return song
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error get artist by id:", error);
+    throw error;
   }
 }
 
-export async function addSong(
-  title,
-  album,
-  lyrics,
-  artist_id,
-  audioUrl,
-  coverUrl
-) {
+export async function songByTitle(title) {
   try {
-    const song = prisma.songs.create({
-      data: {
-        title,
-        album,
-        lyrics,
-        audio_url: audioUrl,
-        cover_url: coverUrl,
-        artist_id: parseInt(artist_id),
-      },
-    });
+    const songs = await prisma.songs.findMany({
+      where: {
+        title
+      }
+    })
 
-    return song;
+    if (songs.length === 0) {
+      return false
+    }
+
+    return songs
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error " });
+    console.error("Error get artist by title:", error);
+    throw error;
   }
 }

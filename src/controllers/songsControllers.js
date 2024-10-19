@@ -1,7 +1,7 @@
 import {
   getAllSongs,
-  SongsByArtist,
-  SongsArtistById,
+  songById,
+  songByTitle,
 } from "../models/songs/songsModel.js";
 import storage from "../utils/storage.js";
 import upload from "../middleware/upload.js";
@@ -15,25 +15,33 @@ export async function getSongs(_, res) {
   }
 }
 
-export async function getSongsByArtist(req, res) {
+export async function getSongById(req, res) {
   try {
-    const { artist } = req.params;
+    const { song_id } = req.params;
 
-    // const isArtistExisting = await artistExist(artist);
+    const song = await songById(song_id);
 
-    const songs = await SongsByArtist(artist);
-    return res.status(200).json(songs);
+    if (!song) {
+      return res.status(404).json({ error: "Song not found!" });
+    }
+
+    return res.status(200).json(song);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
-export async function getSongsArtistById(req, res) {
+export async function getSongbyTitle(req, res) {
   try {
-    const { id, artist } = req.params;
+    const { q } = req.query;
 
-    const song = await SongsArtistById(id, artist);
-    return res.status(200).json(song);
+    const songs = await songByTitle(q);
+
+    if (!songs) {
+      return res.status(404).json({ error: "Song not found!" });
+    }
+
+    return res.status(200).json(songs);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
